@@ -19,6 +19,7 @@ public class IndividualEntryTest {
     @Test
     public void testPopulateSquare () {
         int expectedNumber = 1;
+
         entry.populateWithNumber(expectedNumber);
 
         assertIndividualEntry(expectedNumber, entry);
@@ -28,7 +29,7 @@ public class IndividualEntryTest {
     public void removeImmpossibleNumber () {
         int immpossibleNumber = 1;
 
-        entry.removeImpossibleNumber(immpossibleNumber);
+        entry.EliminateDueToNumberInRow(immpossibleNumber);
 
         assertFalse(entry.getPossibleNumbers()[immpossibleNumber]);
     }

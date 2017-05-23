@@ -21,12 +21,8 @@ public class IndividualEntry {
         filled = false;
     }
 
-    public void removeImpossibleNumber(final int number) {
-        for (int i = 0; i < Utility.DIMENSION; i++) {
-            if (i == number) {
-                possibleNumbers[i] = false;
-            }
-        }
+    public void EliminateDueToNumberInRow(final int number) {
+        possibleNumbers[number] = false;
     }
 
     public void populateWithNumber(final int number) {

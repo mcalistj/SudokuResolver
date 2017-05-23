@@ -15,6 +15,16 @@ public class SudokuGrid {
 
     }
 
+    public void putNumber(final int row, final int column, final int number) {
+        grid[row][column].populateWithNumber(number);
+
+        //eliminatePossibilitiesInRow
+
+        //eliminatePossibilitiesInColumn
+
+        //elimniatePossibilitiesInSubSquare
+    }
+
     //@VisibleForTesting
     public IndividualEntry[] setRow(final int index) {
         IndividualEntry[] row = new IndividualEntry[10];

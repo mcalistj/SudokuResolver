@@ -3,20 +3,17 @@ package com.company.sudokuresolver;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
-/**
- * Created by johmcali on 5/7/17.
- */
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 public class SudokuGridTest {
-    List<Integer> entriesFilled = new ArrayList<>(Arrays.asList(0, 3, 9));
-    List<Integer> numbersTaken = new ArrayList<>(Arrays.asList(0, 2, 9));
 
-    Map<Integer, Integer> row = new HashMap<Integer, Integer>(){{
+    Map<Integer, Integer> ROW = new HashMap<Integer, Integer>() {{
         put(0, 2);
         put(3, 9);
         put(9, 0);
@@ -25,34 +22,92 @@ public class SudokuGridTest {
     private SudokuGrid grid;
 
     @Before
-    public void setUp () {
+    public void setUp() {
         grid = new SudokuGrid();
     }
 
     @Test
-    public void testEliminateDueToNumberInRow () {
+    public void testSquaresFilled() {
         int rowIndex = 1;
+        populateRowWithIndex(rowIndex, ROW);
 
-        populateRowWithIndex(rowIndex, row);
-
-
+        assertPositionsfilled(rowIndex, ROW);
     }
 
+    @Test
+    public void testOtherSquaresNotFilled() {
+        int rowIndex = 1;
+        populateRowWithIndex(rowIndex, ROW);
 
-    public void assertNotPossibleInRow (final int rowIndex, final Map<Integer, Integer> positionAndNumbers) {
+        assertPositionsNotfilled(rowIndex, ROW);
+    }
 
-        for (Map.Entry<Integer, Integer> entry : positionAndNumbers.entrySet())
-        {
-            grid.getGrid()[rowIndex][entry.getValue()].setNumber(entry.getValue());
+    @Test
+    public void assertNumbersNotPossibleInRow() {
+        int rowIndex = 1;
+        populateRowWithIndex(rowIndex, ROW);
+
+        assertPositionsNotFilledHaveReducedPossibilities(rowIndex, ROW);
+    }
+
+    private void assertPositionsfilled(final int rowIndex, final Map<Integer, Integer> positionAndNumber) {
+        for (Map.Entry<Integer, Integer> entry : positionAndNumber.entrySet()) {
+            assertTrue(String.format("Row %s should be filled", rowIndex),
+                    grid.getGrid()[rowIndex][entry.getKey()].isFilled());
         }
     }
 
-    public void populateRowWithIndex (final int rowIndex, final Map<Integer, Integer> positionAndNumbers) {
+    private void assertPositionsNotfilled(final int rowIndex,
+                                          final Map<Integer, Integer> positionAndNumber) {
+        for (int i = 0; i < Utility.DIMENSION; i++) {
+            if (!positionAndNumber.containsKey(i)) {
+                assertFalse(String.format("Row %s should not be filled", rowIndex),
+                        grid.getGrid()[rowIndex][i].isFilled());
+            }
+        }
+    }
 
+    private void assertPositionsNotFilledHaveReducedPossibilities(final int rowIndex,
+                                                                  final Map<Integer, Integer> positionAndNumber) {
+        Set<Integer> numbersTaken = getNumbersTaken(rowIndex, positionAndNumber);
 
-        for (Map.Entry<Integer, Integer> entry : positionAndNumbers.entrySet())
-        {
-            grid.getGrid()[rowIndex][entry.getValue()].setNumber(entry.getValue());
+        for (int i = 0; i < Utility.DIMENSION; i++) {
+            if (!positionAndNumber.containsKey(i)) {
+                assertNumbersAreNotPossibleInSquare(grid.getGrid()[rowIndex][i], numbersTaken);
+                assertFalse(String.format("Row %s should not be filled", rowIndex),
+                        grid.getGrid()[rowIndex][i].isFilled());
+            }
+        }
+    }
+
+    private void assertNumbersAreNotPossibleInSquare(final IndividualEntry square, final Set<Integer> numbersTaken) {
+
+        for (int i = 0; i < Utility.DIMENSION; i++) {
+            if (numbersTaken.contains(i)) {
+                assertFalse(String.format("Possibility of %d in this square should be true", i), square
+                        .getPossibleNumbers()[i]);
+            } else {
+                assertTrue(String.format("Possibility of %d in this square should be true", i), square
+                        .getPossibleNumbers()[i]);
+            }
+        }
+    }
+
+    private Set<Integer> getNumbersTaken(final int rowIndex, final Map<Integer, Integer> positionAndNumber) {
+
+        Set<Integer> numbersTaken = new HashSet<Integer>();
+
+        for (Map.Entry<Integer, Integer> entry : positionAndNumber.entrySet()) {
+            numbersTaken.add(grid.getGrid()[rowIndex][entry.getKey()].getNumber());
+        }
+
+        return numbersTaken;
+    }
+
+    private void populateRowWithIndex(final int rowIndex, final Map<Integer, Integer> positionAndNumber) {
+
+        for (Map.Entry<Integer, Integer> entry : positionAndNumber.entrySet()) {
+            grid.getGrid()[rowIndex][entry.getKey()].setNumber(entry.getValue());
         }
     }
 }
