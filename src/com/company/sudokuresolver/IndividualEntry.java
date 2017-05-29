@@ -21,7 +21,7 @@ public class IndividualEntry {
         filled = false;
     }
 
-    public void EliminateDueToNumberInRow(final int number) {
+    public void eliminatePossibility(final int number) {
         possibleNumbers[number] = false;
     }
 
@@ -30,10 +30,10 @@ public class IndividualEntry {
         filled = true;
 
         for (int i = 0; i < Utility.DIMENSION; i++) {
-            if (i == number) {
-                possibleNumbers[i] = true;
-            } else {
+            if (i != number) {
                 possibleNumbers[i] = false;
+            } else {
+                possibleNumbers[i] = true;
             }
         }
     }

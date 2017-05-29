@@ -11,18 +11,33 @@ public class SudokuGrid {
         grid = new IndividualEntry[10][10];
     }
 
-    private void eliminateDueToNumberInRow() {
+    public void putNumber(final int rowIndex, final int columnIndex, final int number) {
+        grid[rowIndex][columnIndex].populateWithNumber(number);
 
-    }
-
-    public void putNumber(final int row, final int column, final int number) {
-        grid[row][column].populateWithNumber(number);
-
-        //eliminatePossibilitiesInRow
+        eliminateDueToNumberInRow(rowIndex, columnIndex, number);
 
         //eliminatePossibilitiesInColumn
 
         //elimniatePossibilitiesInSubSquare
+    }
+
+    private void eliminateDueToNumberInRow(final int rowIndex, final int columneNumber, final int number) {
+        IndividualEntry[] row = grid[rowIndex];
+
+        for (int i = 0; i < Utility.DIMENSION; i++) {
+            if (i != columneNumber) {
+                row[i].eliminatePossibility(number);
+            }
+        }
+
+    }
+
+    private void eliminatePossibilitiesInColumn() {
+
+    }
+
+    private void elimniatePossibilitiesInSubSquare() {
+
     }
 
     //@VisibleForTesting

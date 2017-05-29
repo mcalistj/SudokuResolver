@@ -29,7 +29,7 @@ public class IndividualEntryTest {
     public void removeImmpossibleNumber () {
         int immpossibleNumber = 1;
 
-        entry.EliminateDueToNumberInRow(immpossibleNumber);
+        entry.eliminatePossibility(immpossibleNumber);
 
         assertFalse(entry.getPossibleNumbers()[immpossibleNumber]);
     }
