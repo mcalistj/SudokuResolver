@@ -4,13 +4,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class SudokuGridTest {
 
@@ -20,121 +17,151 @@ public class SudokuGridTest {
         put(9, 0);
     }};
 
-    private SudokuGrid grid;
+    private SudokuGrid sudokuGrid;
 
     @Before
     public void setUp() {
-        grid = new SudokuGrid();
+        sudokuGrid = new SudokuGrid();
     }
 
     @Test
-    public void testSquaresFilled() {
-        int rowIndex = 1;
-        populateRowWithIndex(rowIndex, ROW);
-
-        assertPositionsfilled(rowIndex, ROW);
-    }
-
-    @Test
-    public void testOtherSquaresNotFilled() {
-        int rowIndex = 1;
-        populateRowWithIndex(rowIndex, ROW);
-
-        assertPositionsNotfilled(rowIndex, ROW);
-    }
-
-    @Test
-    public void testPutNumberCheckRow() {
+    public void testPutNumberInRow() {
         int rowIndex = 1;
         int columnIndex = 1;
         int number = 0;
 
-        grid.putNumber(rowIndex, columnIndex, number);
+        sudokuGrid.putNumber(rowIndex, columnIndex, number);
 
-        assertPositionsNotInRowCannotHaveNumber(rowIndex, columnIndex, number);
+        assertPositionsInRowCannotHaveNumber(rowIndex, columnIndex, number);
     }
 
     @Test
-    public void checkNumbersNotPossibleInRow() {
+    public void testPutTwoNumbersInRow() {
         int rowIndex = 1;
-        populateRowWithIndex(rowIndex, ROW);
+        int firstColumnIndex = 1;
+        int firstNumber = 0;
+        int secondColumnIndex = 5;
+        int secondNumber = 3;
 
-        assertPositionsNotFilledHaveReducedPossibilities(rowIndex, ROW);
+        sudokuGrid.putNumber(rowIndex, firstColumnIndex, firstNumber);
+        sudokuGrid.putNumber(rowIndex, secondColumnIndex, secondNumber);
+
+        assertPositionsInRowCannotHaveNumber(rowIndex, firstColumnIndex, firstNumber);
+        assertPositionsInRowCannotHaveNumber(rowIndex, secondColumnIndex, secondNumber);
     }
 
-    private void assertPositionsNotInRowCannotHaveNumber(final int rowIndex, final int columnIndex, final int number) {
+    @Test
+    public void testPutNumberInColumn() {
+        int rowIndex = 1;
+        int columnIndex = 1;
+        int number = 0;
+
+        sudokuGrid.putNumber(rowIndex, columnIndex, number);
+
+        assertPositionsInColumnCannotHaveNumber(rowIndex, columnIndex, number);
+    }
+
+    @Test
+    public void testPutTwoNumbersInColumn() {
+        int columnIndex = 1;
+        int firstRowIndex = 1;
+        int firstNumber = 0;
+        int secondRowIndex = 5;
+        int secondNumber = 3;
+
+        sudokuGrid.putNumber(firstRowIndex, columnIndex, firstNumber);
+        sudokuGrid.putNumber(secondRowIndex, columnIndex, secondNumber);
+
+        assertPositionsInColumnCannotHaveNumber(firstRowIndex, columnIndex, firstNumber);
+        assertPositionsInColumnCannotHaveNumber(secondRowIndex, columnIndex, secondNumber);
+    }
+
+    @Test
+    public void testPopulateEntryWithRowWithOneEmptyField() {
+        sudokuGrid.putNumber(0, 0, 0);
+        sudokuGrid.putNumber(0, 1, 1);
+        sudokuGrid.putNumber(0, 2, 2);
+        sudokuGrid.putNumber(0, 3, 3);
+        sudokuGrid.putNumber(0, 4, 4);
+        sudokuGrid.putNumber(0, 5, 5);
+        sudokuGrid.putNumber(0, 6, 6);
+        sudokuGrid.putNumber(0, 7, 7);
+        sudokuGrid.putNumber(0, 8, 8);
+
+        sudokuGrid.populateRowEntry();
+
+        assertEquals(9, sudokuGrid.getGrid()[0][9].getNumber());
+    }
+
+    @Test
+    public void testPopulateEntryWithRowAlmostFullAndOneInColumn() {
+        sudokuGrid.putNumber(0, 0, 0);
+        sudokuGrid.putNumber(0, 1, 1);
+        sudokuGrid.putNumber(0, 2, 2);
+        sudokuGrid.putNumber(0, 3, 3);
+        sudokuGrid.putNumber(0, 4, 4);
+        sudokuGrid.putNumber(0, 5, 5);
+        sudokuGrid.putNumber(0, 6, 6);
+        sudokuGrid.putNumber(0, 7, 7);
+        sudokuGrid.putNumber(1, 9, 8);
+
+        sudokuGrid.populateRowEntry();
+
+        assertEquals(9, sudokuGrid.getGrid()[0][9].getNumber());
+    }
+
+    /*@Test
+    public void testPutNumberInSubGrid() {
+        int gridIndex = 1;
+        int columnIndex = 1;
+        int number = 0;
+
+        sudokuGrid.putNumber(rowIndex, columnIndex, number);
+
+        assertPositionsInColumnCannotHaveNumber(rowIndex, columnIndex, number);
+    }
+
+    @Test
+    public void testPutTwoNumbersInSubGrid() {
+        int columnIndex = 1;
+        int firstRowIndex = 1;
+        int firstNumber = 0;
+        int secondRowIndex = 5;
+        int secondNumber = 3;
+
+        sudokuGrid.putNumber(firstRowIndex, columnIndex, firstNumber);
+        sudokuGrid.putNumber(secondRowIndex, columnIndex, secondNumber);
+
+        assertPositionsInColumnCannotHaveNumber(firstRowIndex, columnIndex, firstNumber);
+        assertPositionsInColumnCannotHaveNumber(secondRowIndex, columnIndex, secondNumber);
+    }*/
+
+    private void assertPositionsInRowCannotHaveNumber(final int rowIndex, final int columnIndex, final int number) {
 
         for (int i = 0; i < Utility.DIMENSION; i++) {
             if (i != columnIndex) {
-                assertFalse(String.format("Row %d with column index %d have possibility of number %d", rowIndex,
-                        columnIndex, number), grid.getGrid()[rowIndex][i].getPossibleNumbers()[i]);
+                assertFalse(String.format("Row %d with column index %d cannot have possibility of number %d", rowIndex,
+                        i, number), sudokuGrid.getGrid()[rowIndex][i].getPossibleNumbers()[number]);
             } else {
                 assertEquals(String.format("Row %d with column index %d should have number %d",
-                        rowIndex, columnIndex, number), number, grid.getGrid()[rowIndex][i].getNumber());
+                        rowIndex, i, number), number, sudokuGrid.getGrid()[rowIndex][i].getNumber());
             }
         }
 
     }
 
-
-    private void assertPositionsfilled(final int rowIndex, final Map<Integer, Integer> positionAndNumber) {
-        for (Map.Entry<Integer, Integer> entry : positionAndNumber.entrySet()) {
-            assertTrue(String.format("Row %s should be filled", rowIndex),
-                    grid.getGrid()[rowIndex][entry.getKey()].isFilled());
-        }
-    }
-
-    private void assertPositionsNotfilled(final int rowIndex,
-                                          final Map<Integer, Integer> positionAndNumber) {
-        for (int i = 0; i < Utility.DIMENSION; i++) {
-            if (!positionAndNumber.containsKey(i)) {
-                assertFalse(String.format("Row %s should not be filled", rowIndex),
-                        grid.getGrid()[rowIndex][i].isFilled());
-            }
-        }
-    }
-
-    private void assertPositionsNotFilledHaveReducedPossibilities(final int rowIndex,
-                                                                  final Map<Integer, Integer> positionAndNumber) {
-        Set<Integer> numbersTaken = getNumbersTaken(rowIndex, positionAndNumber);
+    private void assertPositionsInColumnCannotHaveNumber(final int rowIndex, final int columnIndex, final int number) {
 
         for (int i = 0; i < Utility.DIMENSION; i++) {
-            if (!positionAndNumber.containsKey(i)) {
-                assertNumbersAreNotPossibleInSquare(grid.getGrid()[rowIndex][i], numbersTaken);
-                assertFalse(String.format("Row %s should not be filled", rowIndex),
-                        grid.getGrid()[rowIndex][i].isFilled());
-            }
-        }
-    }
-
-    private void assertNumbersAreNotPossibleInSquare(final IndividualEntry square, final Set<Integer> numbersTaken) {
-
-        for (int i = 0; i < Utility.DIMENSION; i++) {
-            if (numbersTaken.contains(i)) {
-                assertFalse(String.format("Possibility of %d in this square should be true", i), square
-                        .getPossibleNumbers()[i]);
+            if (i != rowIndex) {
+                assertFalse(String.format("Row %d with column index %d cannot have possibility of number %d", i,
+                        columnIndex, number), sudokuGrid.getGrid()[i][columnIndex].getPossibleNumbers()[number]);
             } else {
-                assertTrue(String.format("Possibility of %d in this square should be true", i), square
-                        .getPossibleNumbers()[i]);
+                assertEquals(String.format("Row %d with column index %d should have number %d",
+                        i, columnIndex, number), number, sudokuGrid.getGrid()[i][columnIndex].getNumber());
             }
         }
+
     }
 
-    private Set<Integer> getNumbersTaken(final int rowIndex, final Map<Integer, Integer> positionAndNumber) {
-
-        Set<Integer> numbersTaken = new HashSet<Integer>();
-
-        for (Map.Entry<Integer, Integer> entry : positionAndNumber.entrySet()) {
-            numbersTaken.add(grid.getGrid()[rowIndex][entry.getKey()].getNumber());
-        }
-
-        return numbersTaken;
-    }
-
-    private void populateRowWithIndex(final int rowIndex, final Map<Integer, Integer> positionAndNumber) {
-
-        for (Map.Entry<Integer, Integer> entry : positionAndNumber.entrySet()) {
-            grid.getGrid()[rowIndex][entry.getKey()].setNumber(entry.getValue());
-        }
-    }
 }

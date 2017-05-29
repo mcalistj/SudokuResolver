@@ -25,6 +25,30 @@ public class IndividualEntry {
         possibleNumbers[number] = false;
     }
 
+    public boolean autonomouslyPopulateEntry() {
+        if (filled) {
+            return true;
+        }
+
+        Integer possibility = null;
+        int numberOfPossibilities = 0;
+
+        for (int i = 0; i < Utility.DIMENSION; i++) {
+            if (possibleNumbers[i]) {
+                possibility = i;
+                numberOfPossibilities++;
+            }
+        }
+
+        if (possibility != null && numberOfPossibilities == 1) {
+            number = possibility;
+            filled = true;
+            return true;
+        }
+
+        return false;
+    }
+
     public void populateWithNumber(final int number) {
         this.number = number;
         filled = true;

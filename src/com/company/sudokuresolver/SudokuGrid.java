@@ -9,6 +9,12 @@ public class SudokuGrid {
 
     public SudokuGrid() {
         grid = new IndividualEntry[10][10];
+
+        for (int i = 0; i < Utility.DIMENSION; i++) {
+            for (int j = 0; j < Utility.DIMENSION; j++) {
+                grid[i][j] = new IndividualEntry();
+            }
+        }
     }
 
     public void putNumber(final int rowIndex, final int columnIndex, final int number) {
@@ -16,50 +22,52 @@ public class SudokuGrid {
 
         eliminateDueToNumberInRow(rowIndex, columnIndex, number);
 
-        //eliminatePossibilitiesInColumn
+        eliminatePossibilitiesInColumn(rowIndex, columnIndex, number);
 
-        //elimniatePossibilitiesInSubSquare
+        //eliminatePossibilitiesInSubSquare
     }
 
-    private void eliminateDueToNumberInRow(final int rowIndex, final int columneNumber, final int number) {
-        IndividualEntry[] row = grid[rowIndex];
+    public void populateEntry() {
+        //populateRowEntry()
+        //populateColumnEntry()
+        //populateSubGridEntry()
+    }
 
+    public void populateRowEntry() {
         for (int i = 0; i < Utility.DIMENSION; i++) {
-            if (i != columneNumber) {
-                row[i].eliminatePossibility(number);
+            populateEntryByRowIndex(i);
+        }
+    }
+
+    public void populateEntryByRowIndex(final int rowIndex) {
+        for (int columnIndex = 0; columnIndex < Utility.DIMENSION; columnIndex++) {
+            grid[rowIndex][columnIndex].autonomouslyPopulateEntry();
+        }
+    }
+
+    private void eliminateDueToNumberInRow(final int rowIndex, final int columnIndex, final int number) {
+        for (int i = 0; i < Utility.DIMENSION; i++) {
+            if (i != columnIndex) {
+                grid[rowIndex][i].eliminatePossibility(number);
             }
         }
-
     }
 
-    private void eliminatePossibilitiesInColumn() {
-
+    private void eliminatePossibilitiesInColumn(final int rowIndex, final int columnIndex, final int number) {
+        for (int i = 0; i < Utility.DIMENSION; i++) {
+            if (i != rowIndex) {
+                grid[i][columnIndex].eliminatePossibility(number);
+            }
+        }
     }
 
     private void elimniatePossibilitiesInSubSquare() {
+        //determineGridIndex
 
     }
 
-    //@VisibleForTesting
-    public IndividualEntry[] setRow(final int index) {
-        IndividualEntry[] row = new IndividualEntry[10];
-
-        for (int i = 0; i < Utility.DIMENSION; i++) {
-            row[i] = grid[i][index];
-        }
-
-        return row;
-    }
-
-    //@VisibleForTesting
-    public IndividualEntry[] getRow(final int index) {
-        IndividualEntry[] row = new IndividualEntry[10];
-
-        for (int i = 0; i < Utility.DIMENSION; i++) {
-            row[i] = grid[i][index];
-        }
-
-        return row;
-    }
+    /*private int[][] determineGridIndex(){
+        //
+    }*/
 
 }
