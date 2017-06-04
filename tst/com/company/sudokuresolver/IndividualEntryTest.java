@@ -34,7 +34,7 @@ public class IndividualEntryTest {
         assertFalse(entry.getPossibleNumbers()[immpossibleNumber]);
     }
 
-    public void assertIndividualEntry (final int expectedNumber, final IndividualEntry entry) {
+    public void assertIndividualEntry (final Integer expectedNumber, final IndividualEntry entry) {
         assertEquals(expectedNumber, entry.getNumber());
 
         for (int i = 0; i < Utility.DIMENSION; i++) {

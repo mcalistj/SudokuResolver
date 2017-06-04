@@ -3,19 +3,10 @@ package com.company.sudokuresolver;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 public class SudokuGridTest {
-
-    Map<Integer, Integer> ROW = new HashMap<Integer, Integer>() {{
-        put(0, 2);
-        put(3, 9);
-        put(9, 0);
-    }};
 
     private SudokuGrid sudokuGrid;
 
@@ -78,36 +69,34 @@ public class SudokuGridTest {
 
     @Test
     public void testPopulateEntryWithRowWithOneEmptyField() {
-        sudokuGrid.putNumber(0, 0, 0);
-        sudokuGrid.putNumber(0, 1, 1);
-        sudokuGrid.putNumber(0, 2, 2);
-        sudokuGrid.putNumber(0, 3, 3);
-        sudokuGrid.putNumber(0, 4, 4);
-        sudokuGrid.putNumber(0, 5, 5);
-        sudokuGrid.putNumber(0, 6, 6);
-        sudokuGrid.putNumber(0, 7, 7);
-        sudokuGrid.putNumber(0, 8, 8);
+        sudokuGrid.putNumber(0, 0, 1);
+        sudokuGrid.putNumber(0, 1, 2);
+        sudokuGrid.putNumber(0, 2, 3);
+        sudokuGrid.putNumber(0, 3, 4);
+        sudokuGrid.putNumber(0, 4, 5);
+        sudokuGrid.putNumber(0, 5, 6);
+        sudokuGrid.putNumber(0, 6, 7);
+        sudokuGrid.putNumber(0, 7, 8);
 
         sudokuGrid.populateRowEntry();
 
-        assertEquals(9, sudokuGrid.getGrid()[0][9].getNumber());
+        assertEquals(Integer.valueOf(9), sudokuGrid.getGrid()[0][8].getNumber());
     }
 
     @Test
     public void testPopulateEntryWithRowAlmostFullAndOneInColumn() {
-        sudokuGrid.putNumber(0, 0, 0);
-        sudokuGrid.putNumber(0, 1, 1);
-        sudokuGrid.putNumber(0, 2, 2);
-        sudokuGrid.putNumber(0, 3, 3);
-        sudokuGrid.putNumber(0, 4, 4);
-        sudokuGrid.putNumber(0, 5, 5);
-        sudokuGrid.putNumber(0, 6, 6);
-        sudokuGrid.putNumber(0, 7, 7);
-        sudokuGrid.putNumber(1, 9, 8);
+        sudokuGrid.putNumber(0, 0, 1);
+        sudokuGrid.putNumber(0, 1, 2);
+        sudokuGrid.putNumber(0, 2, 3);
+        sudokuGrid.putNumber(0, 3, 4);
+        sudokuGrid.putNumber(0, 4, 5);
+        sudokuGrid.putNumber(0, 5, 6);
+        sudokuGrid.putNumber(0, 6, 7);
+        sudokuGrid.putNumber(1, 8, 8);
 
         sudokuGrid.populateRowEntry();
 
-        assertEquals(9, sudokuGrid.getGrid()[0][9].getNumber());
+        assertEquals(Integer.valueOf(9), sudokuGrid.getGrid()[0][8].getNumber());
     }
 
     /*@Test
@@ -136,7 +125,7 @@ public class SudokuGridTest {
         assertPositionsInColumnCannotHaveNumber(secondRowIndex, columnIndex, secondNumber);
     }*/
 
-    private void assertPositionsInRowCannotHaveNumber(final int rowIndex, final int columnIndex, final int number) {
+    private void assertPositionsInRowCannotHaveNumber(final int rowIndex, final int columnIndex, final Integer number) {
 
         for (int i = 0; i < Utility.DIMENSION; i++) {
             if (i != columnIndex) {
@@ -150,7 +139,8 @@ public class SudokuGridTest {
 
     }
 
-    private void assertPositionsInColumnCannotHaveNumber(final int rowIndex, final int columnIndex, final int number) {
+    private void assertPositionsInColumnCannotHaveNumber(final int rowIndex, final int columnIndex, final Integer
+            number) {
 
         for (int i = 0; i < Utility.DIMENSION; i++) {
             if (i != rowIndex) {

@@ -8,7 +8,7 @@ public class SudokuGrid {
     private IndividualEntry[][] grid;
 
     public SudokuGrid() {
-        grid = new IndividualEntry[10][10];
+        grid = new IndividualEntry[9][9];
 
         for (int i = 0; i < Utility.DIMENSION; i++) {
             for (int j = 0; j < Utility.DIMENSION; j++) {

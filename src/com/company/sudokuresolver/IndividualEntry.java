@@ -1,18 +1,19 @@
 package com.company.sudokuresolver;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.stream.IntStream;
 
-@Data
+@Getter
 public class IndividualEntry {
 
-    private int number;
+    private Integer number;
     private boolean[] possibleNumbers = new boolean[10];
     private boolean filled;
 
     public IndividualEntry() {
-        IntStream.range(0, Utility.DIMENSION).forEach(
+        possibleNumbers[0] = false;
+        IntStream.rangeClosed(1, Utility.DIMENSION).forEach(
                 number -> {
                     possibleNumbers[number] = true;
                 }
@@ -26,14 +27,10 @@ public class IndividualEntry {
     }
 
     public boolean autonomouslyPopulateEntry() {
-        if (filled) {
-            return true;
-        }
-
         Integer possibility = null;
         int numberOfPossibilities = 0;
 
-        for (int i = 0; i < Utility.DIMENSION; i++) {
+        for (int i = 1; i <= Utility.DIMENSION; i++) {
             if (possibleNumbers[i]) {
                 possibility = i;
                 numberOfPossibilities++;
@@ -53,7 +50,7 @@ public class IndividualEntry {
         this.number = number;
         filled = true;
 
-        for (int i = 0; i < Utility.DIMENSION; i++) {
+        for (int i = 1; i <= Utility.DIMENSION; i++) {
             if (i != number) {
                 possibleNumbers[i] = false;
             } else {

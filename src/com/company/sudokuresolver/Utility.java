@@ -5,7 +5,7 @@ package com.company.sudokuresolver;
  */
 public class Utility {
 
-    public static int DIMENSION = 10;
+    public static int DIMENSION = 9;
     public static int SUB_GRID_DIMENSION = 3;
     public int NUMBER_OF_SQUARES_IN_ROW = 9;
     public int NUMBER_OF_SQUARES_IN_COLUMN = 9;
