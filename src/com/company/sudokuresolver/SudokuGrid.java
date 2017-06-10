@@ -1,73 +1,70 @@
 package com.company.sudokuresolver;
 
+import com.company.sudokuresolver.operations.ColumnOperations;
+import com.company.sudokuresolver.operations.RowOperations;
+import com.company.sudokuresolver.operations.SubGridOperations;
 import lombok.Data;
+
+import static com.company.sudokuresolver.Utility.DIMENSION;
 
 @Data
 public class SudokuGrid {
 
     private IndividualEntry[][] grid;
+    private boolean gridPopulated;
 
     public SudokuGrid() {
         grid = new IndividualEntry[9][9];
+        gridPopulated = false;
 
-        for (int i = 0; i < Utility.DIMENSION; i++) {
-            for (int j = 0; j < Utility.DIMENSION; j++) {
+        for (int i = 0; i < DIMENSION; i++) {
+            for (int j = 0; j < DIMENSION; j++) {
                 grid[i][j] = new IndividualEntry();
             }
+        }
+    }
+
+    public void populateWholeGrid() {
+        int iteration = 0;
+
+        /*while (!gridPopulated) {
+            if (iteration > 10 * 10) {
+                throw new RuntimeException("Game cannot be completed");
+            }
+            populateRow();
+            iteration++;
+        }*/
+
+        for (int i = 0; i < 100; i++) {
+            populateRow();
         }
     }
 
     public void putNumber(final int rowIndex, final int columnIndex, final int number) {
         grid[rowIndex][columnIndex].populateWithNumber(number);
 
-        eliminateDueToNumberInRow(rowIndex, columnIndex, number);
+        RowOperations.eliminateDueToNumberInRow(grid, rowIndex, columnIndex, number);
 
-        eliminatePossibilitiesInColumn(rowIndex, columnIndex, number);
+        ColumnOperations.eliminatePossibilitiesInColumn(grid, rowIndex, columnIndex, number);
 
-        //eliminatePossibilitiesInSubSquare
+        SubGridOperations.eliminatePossibilitiesInSubGrid(grid, rowIndex, columnIndex, number);
     }
 
     public void populateEntry() {
-        //populateRowEntry()
+        //populateRow()
         //populateColumnEntry()
         //populateSubGridEntry()
     }
 
-    public void populateRowEntry() {
-        for (int i = 0; i < Utility.DIMENSION; i++) {
+    public void populateRow() {
+        for (int i = 0; i < DIMENSION; i++) {
             populateEntryByRowIndex(i);
         }
     }
 
-    public void populateEntryByRowIndex(final int rowIndex) {
-        for (int columnIndex = 0; columnIndex < Utility.DIMENSION; columnIndex++) {
-            grid[rowIndex][columnIndex].autonomouslyPopulateEntry();
+    private void populateEntryByRowIndex(final int rowIndex) {
+        for (int columnIndex = 0; columnIndex < DIMENSION; columnIndex++) {
+            grid[rowIndex][columnIndex].fillWithOnlyPossiblity();
         }
     }
-
-    private void eliminateDueToNumberInRow(final int rowIndex, final int columnIndex, final int number) {
-        for (int i = 0; i < Utility.DIMENSION; i++) {
-            if (i != columnIndex) {
-                grid[rowIndex][i].eliminatePossibility(number);
-            }
-        }
-    }
-
-    private void eliminatePossibilitiesInColumn(final int rowIndex, final int columnIndex, final int number) {
-        for (int i = 0; i < Utility.DIMENSION; i++) {
-            if (i != rowIndex) {
-                grid[i][columnIndex].eliminatePossibility(number);
-            }
-        }
-    }
-
-    private void elimniatePossibilitiesInSubSquare() {
-        //determineGridIndex
-
-    }
-
-    /*private int[][] determineGridIndex(){
-        //
-    }*/
-
 }

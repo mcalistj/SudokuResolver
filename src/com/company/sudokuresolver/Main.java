@@ -36,7 +36,7 @@ public class Main {
         //sudokuGrid.putNumber(row, column, number);
     }
 
-    private void printGrid() {
+    /*private void printGrid() {
         // print sudokuGrid
-    }
+    }*/
 }

@@ -1,9 +1,11 @@
 package com.company.sudokuresolver;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.stream.IntStream;
 
+@Setter
 @Getter
 public class IndividualEntry {
 
@@ -26,7 +28,7 @@ public class IndividualEntry {
         possibleNumbers[number] = false;
     }
 
-    public boolean autonomouslyPopulateEntry() {
+    public boolean fillWithOnlyPossiblity() {
         Integer possibility = null;
         int numberOfPossibilities = 0;
 
