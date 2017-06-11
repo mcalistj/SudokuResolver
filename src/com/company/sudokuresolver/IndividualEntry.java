@@ -3,11 +3,7 @@ package com.company.sudokuresolver;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.IntStream;
-
-import static com.company.sudokuresolver.Utility.DIMENSION;
 
 @Setter
 @Getter
@@ -63,15 +59,5 @@ public class IndividualEntry {
                 possibleNumbers[i] = true;
             }
         }
-    }
-
-    private Set<Integer> possibleNumbers(){
-        Set<Integer> possible = new HashSet<Integer>();
-        for(int i = 0; i< DIMENSION; i++) {
-            if (possibleNumbers[i]) {
-                possible.add(i);
-            }
-        }
-        return possible;
     }
 }

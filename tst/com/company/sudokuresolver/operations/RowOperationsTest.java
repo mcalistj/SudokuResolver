@@ -4,6 +4,7 @@ import com.company.sudokuresolver.SudokuGrid;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class RowOperationsTest {
 
@@ -43,5 +44,26 @@ public class RowOperationsTest {
         RowOperations.populateIfNumberCanOnlyGoInOnePosition(sudokuGrid.getGrid());
 
         assertEquals(Integer.valueOf(6), sudokuGrid.getGrid()[0][8].getNumber());
+    }
+
+    @Test
+    public void testEntryNotPopulated() {
+        SudokuGrid sudokuGrid = new SudokuGrid();
+
+        sudokuGrid.putNumber(0, 0, 1);
+        sudokuGrid.putNumber(0, 2, 3);
+        sudokuGrid.putNumber(0, 3, 4);
+
+        sudokuGrid.putNumber(1, 1, 6);
+        sudokuGrid.putNumber(2, 4, 6);
+        sudokuGrid.putNumber(3, 5, 6);
+        sudokuGrid.putNumber(4, 6, 6);
+
+        RowOperations.populateIfNumberCanOnlyGoInOnePosition(sudokuGrid.getGrid());
+
+        assertNull(sudokuGrid.getGrid()[0][1].getNumber());
+        assertNull(sudokuGrid.getGrid()[0][4].getNumber());
+        assertNull(sudokuGrid.getGrid()[0][5].getNumber());
+        assertNull(sudokuGrid.getGrid()[0][6].getNumber());
     }
 }
