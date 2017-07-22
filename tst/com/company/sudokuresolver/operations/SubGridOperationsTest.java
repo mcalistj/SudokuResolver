@@ -4,16 +4,15 @@ import com.company.sudokuresolver.SubGrid;
 import com.company.sudokuresolver.SudokuGrid;
 import org.junit.Test;
 
-import static com.company.sudokuresolver.Utility.DIMENSION;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class SubGridOperationsTest {
 
     @Test
-    public void testPopulateGivenSevenCanOnlyGoInOnePlace() {
+    public void testPopulateGivenNumberSevenCanOnlyGoInOnePlace() {
         SudokuGrid sudokuGrid = new SudokuGrid();
-        SubGrid subGrid = new SubGrid(0, 6);
+        SubGrid subGrid = new SubGrid(2);
 
         sudokuGrid.putNumber(0, 1, 7);
 
@@ -31,7 +30,7 @@ public class SubGridOperationsTest {
     }
 
     @Test
-    public void testPopulateGivenEightCanOnlyGoInOnePlace() {
+    public void testPopulateGivenNumberEightCanOnlyGoInOnePlace() {
         SudokuGrid sudokuGrid = new SudokuGrid();
         SubGrid subGrid = new SubGrid(6, 0);
 

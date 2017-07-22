@@ -3,6 +3,7 @@ package com.company.sudokuresolver;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 @Setter
@@ -28,7 +29,7 @@ public class IndividualEntry {
         possibleNumbers[number] = false;
     }
 
-    public boolean fillWithOnlyPossiblity() {
+    public Optional<Integer> fillWithOnlyPossiblity() {
         Integer possibility = null;
         int numberOfPossibilities = 0;
 
@@ -42,10 +43,10 @@ public class IndividualEntry {
         if (possibility != null && numberOfPossibilities == 1) {
             number = possibility;
             filled = true;
-            return true;
+            return Optional.of(possibility);
         }
 
-        return false;
+        return Optional.empty();
     }
 
     public void populateWithNumber(final int number) {

@@ -93,12 +93,14 @@ public class SudokuGridTest {
         sudokuGrid.putNumber(0, 2, 3);
         sudokuGrid.putNumber(0, 3, 4);
         sudokuGrid.putNumber(0, 4, 5);
-        sudokuGrid.putNumber(0, 5, 6);
-        sudokuGrid.putNumber(0, 6, 7);
+        sudokuGrid.putNumber(0, 6, 6);
+        sudokuGrid.putNumber(0, 7, 7);
         sudokuGrid.putNumber(1, 8, 8);
 
         sudokuGrid.populateRow();
+        sudokuGrid.populateRow();
 
+        assertEquals(Integer.valueOf(8), sudokuGrid.getGrid()[0][5].getNumber());
         assertEquals(Integer.valueOf(9), sudokuGrid.getGrid()[0][8].getNumber());
     }
 
@@ -196,43 +198,54 @@ public class SudokuGridTest {
 
     @Test
     public void populateWholeGrid() {
-        sudokuGrid.putNumber(0, 1, 7);
-        sudokuGrid.putNumber(0, 4, 3);
+        sudokuGrid.putNumber(0, 4, 7);
+        sudokuGrid.putNumber(0, 5, 9);
         sudokuGrid.putNumber(0, 7, 8);
 
+        sudokuGrid.putNumber(1, 1, 3);
         sudokuGrid.putNumber(1, 2, 6);
-        sudokuGrid.putNumber(1, 5, 4);
-        sudokuGrid.putNumber(1, 6, 2);
-        sudokuGrid.putNumber(1, 8, 9);
+        sudokuGrid.putNumber(1, 3, 5);
+        sudokuGrid.putNumber(1, 5, 2);
+        sudokuGrid.putNumber(1, 6, 9);
 
-        sudokuGrid.putNumber(2, 5, 6);
-        sudokuGrid.putNumber(2, 6, 5);
-        sudokuGrid.putNumber(2, 7, 4);
+        sudokuGrid.putNumber(2, 1, 7);
+        sudokuGrid.putNumber(2, 4, 6);
+        sudokuGrid.putNumber(2, 7, 5);
+        sudokuGrid.putNumber(2, 8, 1);
 
-        sudokuGrid.putNumber(3, 3, 1);
-        sudokuGrid.putNumber(3, 6, 3);
-        sudokuGrid.putNumber(3, 7, 9);
-        sudokuGrid.putNumber(3, 7, 9);
 
-        sudokuGrid.putNumber(4, 8, 5);
+        sudokuGrid.putNumber(3, 0, 5);
+        sudokuGrid.putNumber(3, 3, 3);
+        sudokuGrid.putNumber(3, 4, 2);
+        sudokuGrid.putNumber(3, 5, 6);
 
-        sudokuGrid.putNumber(5, 0, 3);
-        sudokuGrid.putNumber(5, 2, 8);
-        sudokuGrid.putNumber(5, 3, 4);
-        sudokuGrid.putNumber(5, 5, 2);
+        sudokuGrid.putNumber(4, 0, 7);
+        sudokuGrid.putNumber(4, 3, 1);
+        sudokuGrid.putNumber(4, 8, 6);
 
-        sudokuGrid.putNumber(6, 0, 4);
-        sudokuGrid.putNumber(6, 3, 3);
-        sudokuGrid.putNumber(6, 7, 7);
 
-        sudokuGrid.putNumber(7, 0, 5);
-        sudokuGrid.putNumber(7, 6, 6);
-        sudokuGrid.putNumber(7, 8, 8);
+        sudokuGrid.putNumber(5, 1, 4);
+        sudokuGrid.putNumber(5, 2, 2);
+        sudokuGrid.putNumber(5, 4, 5);
+        sudokuGrid.putNumber(5, 7, 3);
 
-        sudokuGrid.putNumber(8, 0, 1);
-        sudokuGrid.putNumber(8, 1, 6);
-        sudokuGrid.putNumber(8, 2, 7);
-        sudokuGrid.putNumber(8, 3, 2);
+        sudokuGrid.putNumber(6, 0, 2);
+        sudokuGrid.putNumber(6, 1, 5);
+        sudokuGrid.putNumber(6, 2, 7);
+        sudokuGrid.putNumber(6, 5, 8);
+        sudokuGrid.putNumber(6, 8, 9);
+
+        sudokuGrid.putNumber(7, 0, 4);
+        sudokuGrid.putNumber(7, 1, 6);
+        sudokuGrid.putNumber(7, 2, 8);
+        sudokuGrid.putNumber(7, 4, 9);
+        sudokuGrid.putNumber(7, 6, 3);
+        sudokuGrid.putNumber(7, 7, 7);
+
+
+        sudokuGrid.putNumber(8, 1, 1);
+        sudokuGrid.putNumber(8, 5, 5);
+        sudokuGrid.putNumber(8, 8, 2);
 
         printGrid(sudokuGrid.getGrid());
 

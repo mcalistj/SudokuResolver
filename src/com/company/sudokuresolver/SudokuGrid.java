@@ -5,6 +5,8 @@ import com.company.sudokuresolver.operations.RowOperations;
 import com.company.sudokuresolver.operations.SubGridOperations;
 import lombok.Data;
 
+import java.util.Optional;
+
 import static com.company.sudokuresolver.Utility.DIMENSION;
 
 @Data
@@ -43,11 +45,8 @@ public class SudokuGrid {
     public void putNumber(final int rowIndex, final int columnIndex, final int number) {
         grid[rowIndex][columnIndex].populateWithNumber(number);
 
-        RowOperations.eliminateDueToNumberInRow(grid, rowIndex, columnIndex, number);
+        eliminatePossibilities(rowIndex, columnIndex, number);
 
-        ColumnOperations.eliminatePossibilitiesInColumn(grid, rowIndex, columnIndex, number);
-
-        SubGridOperations.eliminatePossibilitiesInSubGrid(grid, rowIndex, columnIndex, number);
     }
 
     public void populateEntry() {
@@ -63,8 +62,24 @@ public class SudokuGrid {
     }
 
     private void populateEntryByRowIndex(final int rowIndex) {
+        Optional<Integer> gridPopulatedWithNumber;
         for (int columnIndex = 0; columnIndex < DIMENSION; columnIndex++) {
-            grid[rowIndex][columnIndex].fillWithOnlyPossiblity();
+            gridPopulatedWithNumber = grid[rowIndex][columnIndex].fillWithOnlyPossiblity();
+
+            if (gridPopulatedWithNumber.isPresent()) {
+                eliminatePossibilities(rowIndex, columnIndex, gridPopulatedWithNumber.get());
+                gridPopulatedWithNumber = Optional.empty();
+            }
         }
+    }
+
+    private void eliminatePossibilities(final int rowIndex, final int columnIndex, final int
+            number) {
+
+        RowOperations.eliminateDueToNumberInRow(grid, rowIndex, columnIndex, number);
+
+        ColumnOperations.eliminatePossibilitiesInColumn(grid, rowIndex, columnIndex, number);
+
+        SubGridOperations.eliminatePossibilitiesInSubGrid(grid, rowIndex, columnIndex, number);
     }
 }
